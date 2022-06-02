@@ -30,7 +30,7 @@ def parser():
     parser.add_argument("--data_file", default="./cfg/coco.data",
                         help="path to data file")
     parser.add_argument("--thresh", type=float, default=.25,
-                        help="remove detections with lower confidence")
+                        help="Remove detections with lower confidence")
     return parser.parse_args()
 
 
