@@ -116,13 +116,19 @@ def print_detections(detections, coordinates=False):
             print("{}: {}%".format(label, confidence))
 
 
-def draw_boxes(detections, image, colors):
+# Pass detections, image, colors, network height and width.
+def draw_boxes(detections, image, colors, net_h, net_w):
     import cv2
+    # Scale factor.
+    fx = image.shape[1]/net_w
+    fy = image.shape[0]/net_h
+
     for label, confidence, bbox in detections:
         left, top, right, bottom = bbox2points(bbox)
+        left, top, right, bottom = int(left*fx), int(top*fy), int(right*fx), int(bottom*fy)
         cv2.rectangle(image, (left, top), (right, bottom), colors[label], 1)
         cv2.putText(image, "{} [{:.2f}]".format(label, float(confidence)),
-                    (left, top - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+                    (left, top - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.7,
                     colors[label], 2)
     return image
 
